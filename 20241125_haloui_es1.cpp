@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-class Node {
+class Node{
 private:
     int data;
     int weight;
@@ -9,39 +9,77 @@ private:
     Node* rchild;
 
 public:
-
-    Node(int v) {
+    Node(int v){
         data=v;
         weight=1;
         lchild=nullptr;
         rchild=nullptr;
     }
+    
+    
+    Node* insertI(int k) {
+        Node* current=this;
+        Node* parent=nullptr;
 
-
-    void insertR(int k){
-        if(this->data==k) {
-            this->weight++;
-            return;
+        while (current!=nullptr){
+            parent=current;
+            if (k==current->data) {
+                current->weight++;
+                return this;
+            }
+        else if(k<current->data){
+                current=current->lchild;
+            }
+            else{
+                current=current->rchild;
+            }
         }
 
-        if(k>this->data){
-            
-            if (this->rchild==nullptr)
-                this->rchild=new Node(k);
-            else{
-                this->rchild->insertR(k);}
+        if(k<parent->data){
+            parent->lchild=new Node(k);
         } 
         else{
-
-            if(this->lchild==nullptr)
-                this->lchild=new Node(k);
-            else{
-                this->lchild->insertR(k);
+            parent->rchild=new Node(k);
         }
-    }
-    }
+        return this;
+    
+}
 
-    void inOrder() {
+bool searchR(int k){
+        if(this==nullptr){
+            cout<<"non trovato "<<endl;
+            return false;
+        }
+        if(this->data==k){
+            cout<<"trovato "<<endl;
+            return true;
+        }
+        if(k<this->data){
+                return this->lchild->searchR(k);
+            }
+        else if (k>this->data){
+                return this->rchild->searchR(k);
+            }
+        }
+    
+    
+bool searchI(int k){
+        Node* current=this;
+        while(current!=nullptr){
+            if(current->data==k){
+                return true;
+            }
+            else if(k<current->data){
+                current=current->lchild;
+            }
+            else{
+                current=current->rchild;
+            }
+        }
+        return false;
+    }
+    
+       void inOrder() {
         if (this->lchild!=nullptr){ 
             this->lchild->inOrder();
             
@@ -52,20 +90,5 @@ public:
             
         }
     }
+
 };
-
-int main() {
-    Node* root=new Node(10);
-
-    root->insertR(5);
-    root->insertR(15);
-    root->insertR(3);
-    root->insertR(7);
-    root->insertR(12);
-    root->insertR(17);
-
-    root->inOrder();
-
-
-    return 0;
-}
