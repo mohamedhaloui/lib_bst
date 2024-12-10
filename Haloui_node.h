@@ -100,10 +100,11 @@ friend ostream& operator<<(ostream& os, const Node& node) {
         int value;
         is>>value;
     node=new Node(value);
+    root->rchild=nullptr;
+    root->lchild=nullptr;
+    
+    
         return is;
     }
 
 };
-
-
-
