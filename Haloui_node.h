@@ -107,4 +107,72 @@ friend ostream& operator<<(ostream& os, const Node& node) {
         return is;
     }
 
-};
+    void preOrder() {
+        cout << this->data << endl;
+        if (this->lchild != nullptr) {
+            this->lchild->preOrder();
+        }
+        if (this->rchild != nullptr) {
+            this->rchild->preOrder();
+        }
+    }
+
+ 
+    void postOrder(){
+        if (this->lchild!=nullptr) {
+            this->lchild->postOrder();
+        }
+        if(this->rchild != nullptr) {
+            this->rchild->postOrder();
+        }
+        cout<<this->data<<endl;
+    }
+
+}
+ Node* deleteNode(int k) {
+        if (this == nullptr){return nullptr};
+
+        if (k < this->data){
+            this->lchild=this->lchild->deleteNode(k);
+        } else if
+        (k > this->data){
+            this->rchild=this->rchild->deleteNode(k);
+        }
+        else
+        {
+ 
+            if (this->lchild==nullptr) {
+                Node* temp=this->rchild;
+                delete this;
+                return temp;
+            } else if (this->rchild==nullptr) {
+                Node* temp=this->lchild;
+                delete this;
+                return temp;
+            }
+
+           
+            Node* temp=this->rchild;
+            while(temp && temp->lchild!=nullptr) {
+                temp=temp->lchild;
+            }
+            this->data=temp->data;
+            this->rchild=this->rchild->deleteNode(temp->data);
+        }
+        return this;
+    }
+    bool isBst(node* root){
+    if (root->l_child !=nullptr && root->l_child->data>=root->data) {
+        return false;
+    }
+    if (root->r_child!=nullptr && root->r_child->data<=root->data){
+        return false;
+    }
+
+
+    bool leftIsBst=isBst(root->l_child);
+    bool rightIsBst=isBst(root->r_child);
+
+
+    return leftIsBst && rightIsBst;
+} ;
